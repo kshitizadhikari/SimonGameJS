@@ -13,6 +13,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding-top: 100px;
+
+  font-family: "Press Start 2P", cursive;
 }
 
 .container {
@@ -52,4 +55,8 @@ body {
   background-color: antiquewhite;
   height: 11rem;
   width: 11rem;
+}
+
+.game-over {
+  background-color: rgb(235, 17, 17);
 }

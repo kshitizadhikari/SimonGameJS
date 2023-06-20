@@ -2,15 +2,15 @@ let btns = $(".btn");
 
 let btnArray = ["red", "blue", "green", "yellow"];
 let started = false;
-let level = 1;
+let level = 0;
 let gamePattern = [];
 let userPattern = [];
 
 $(document).on("keypress", function () {
   if (!started) {
-    $("h1").text("Level: " + level);
-    startLevel(level);
     started = true;
+    startlevel();
+    $("h1").text("Level: " + level);
   }
 });
 
@@ -19,6 +19,9 @@ btns.on("click", function () {
   let btnName = btnClicked.attr("id");
   playSound(btnName);
   animateButton(btnName);
+  userPattern.push(btnName);
+
+  checkAnswer(userPattern.length - 1);
 });
 
 // RANDOM NUMBER GENERATOR
@@ -39,11 +42,38 @@ function animateButton(btnName) {
   }, 300);
 }
 
-function startLevel(currentLevel) {
-  for (var i = 1; i <= currentLevel; i++) {
-    let randomNum = randomNumGenerator(1, 4);
-    let btn = btnArray[randomNum];
-    playSound(btn);
-    animateButton(btn);
+function startlevel() {
+  userPattern = [];
+  level++;
+  $("h1").text("Level: " + level);
+  let randomNum = randomNumGenerator(1, 4);
+  let randomColor = btnArray[randomNum];
+  gamePattern.push(randomColor);
+  animateButton(randomColor);
+  playSound(randomColor);
+}
+
+function checkAnswer(currentLevel) {
+  if (gamePattern[currentLevel] === userPattern[currentLevel]) {
+    if (gamePattern.length === userPattern.length) {
+      setTimeout(function () {
+        startlevel();
+      }, 1000);
+    }
+  } else {
+    $("body").addClass("game-over");
+    $("h1").text("Game Over");
+    setTimeout(function () {
+      $("body").removeClass("game-over");
+      gameOver();
+    }, 1000);
   }
+}
+
+function gameOver() {
+  userPattern = [];
+  gamePattern = [];
+  started = false;
+  level = 0;
+  $("h1").text("Press a Key to Start");
 }
