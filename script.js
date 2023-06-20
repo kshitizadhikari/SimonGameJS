@@ -63,6 +63,7 @@ function checkAnswer(currentLevel) {
   } else {
     $("body").addClass("game-over");
     $("h1").text("Game Over");
+    playSound("wrong");
     setTimeout(function () {
       $("body").removeClass("game-over");
       gameOver();
